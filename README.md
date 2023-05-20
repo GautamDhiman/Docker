@@ -27,6 +27,13 @@ docker ps
 docker images
 ```
 
+### go into container
+```
+docker exec -it <container-name> bash
+
+docker exec -it node-app bash
+```
+
 ### add volume
 ```
 docker run -p <host-port>:<container-port> -d --name <container-name> -v <host-path>:<container-path> <image-name>
