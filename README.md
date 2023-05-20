@@ -32,5 +32,10 @@ docker images
 docker run -p <host-port>:<container-port> -d --name <container-name> -v <host-path>:<container-path> <image-name>
 
 docker run -v $(pwd):/app -p 80:80 -d --name node-app node-app-image
+
+## for read-only bind mount i.e. host can write to container but not vice-versa
+
+docker run -v $(pwd):/app:ro -p 80:80 -d --name node-app node-app-image
+
 ```
 
