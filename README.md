@@ -46,3 +46,11 @@ docker run -v $(pwd):/app:ro -p 80:80 -d --name node-app node-app-image
 
 ```
 
+
+### docker-compose
+```
+docker-compose up -d
+
+docker-compose down
+```
+
