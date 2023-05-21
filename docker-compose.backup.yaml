@@ -1,7 +1,8 @@
 version: '3'
-
 services:
   node-app:
     build: .
     ports:
       - "80:80"
+    volumes:
+      - ./:/app
