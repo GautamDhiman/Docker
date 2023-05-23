@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const postRouter = require('./routes/postRoutes');
 
 const connectDbRetry = () => {
     mongoose.connect('mongodb://root:root@mongo:27017')
@@ -13,6 +14,9 @@ const connectDbRetry = () => {
 connectDbRetry();
 
 const app = express();
+app.use(express.json());
+
+app.use("/api/v1/posts", postRouter)
 
 app.get('/', (req, res) => {
     res.send("<h1> Hi This is simple express app!!!</h1>")
