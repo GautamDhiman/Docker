@@ -1,9 +1,16 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://root:root@mongo:27017')
-    .then(() => console.log('MongoDB Connected'))
-    .catch(err => console.log(err));
+const connectDbRetry = () => {
+    mongoose.connect('mongodb://root:root@mongo:27017')
+        .then(() => console.log('MongoDB Connected'))
+        .catch(err => {
+            console.log(err);
+            setTimeout(connectDbRetry, 5000);
+        });
+    }
+
+connectDbRetry();
 
 const app = express();
 
