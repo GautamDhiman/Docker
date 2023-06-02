@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const redis = require('redis')
 const session = require('express-session')
+const cors = require('cors')
 
 
 let RedisStore = require('connect-redis')(session)
@@ -34,6 +35,10 @@ connectDbRetry();
 
 const app = express();
 
+app.enable('trust proxy');
+
+app.use(cors());
+
 app.use(session({
     store: new RedisStore({ client: redisClient }),
     secret: 'secret$%^134',
@@ -51,7 +56,7 @@ app.use(express.json());
 app.use("/api/v1/posts", postRouter)
 app.use("/api/v1/users", userRouter)
 
-app.get('/', (req, res) => {
+app.get('/api/v1', (req, res) => {
     res.send("<h1> Hi This is simple express app!!!</h1>")
 })
 const port = 80;
