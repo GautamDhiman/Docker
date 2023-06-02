@@ -49,9 +49,6 @@ exports.login = async (req, res) => {
         if(isCorrect){
             return res.status(200).json({
                 status: 'success',
-                data: {
-                    user,
-                },
             });
         }
         else{

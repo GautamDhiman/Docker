@@ -1,5 +1,23 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const redis = require('redis')
+const session = require('express-session')
+
+
+let RedisStore = require('connect-redis')(session)
+let redisClient = redis.createClient({
+    url: 'redis://redis:6379',
+    legacyMode: true
+})
+
+redisClient.on('reconnecting', function (err) {
+    console.log('Could not establish a connection with redis. ' + err);
+});
+redisClient.on('connect', function (err) {
+    console.log('Connected to redis successfully');
+});
+redisClient.connect();
+
 const postRouter = require('./routes/postRoutes');
 const userRouter = require('./routes/userRoutes');
 
@@ -15,6 +33,19 @@ const connectDbRetry = () => {
 connectDbRetry();
 
 const app = express();
+
+app.use(session({
+    store: new RedisStore({ client: redisClient }),
+    secret: 'secret$%^134',
+    cookie: {
+        secure: false,
+        resave: false,
+        saveUninitialized: false,
+        httpOnly: true,
+        maxAge: 30000
+    }
+}))
+
 app.use(express.json());
 
 app.use("/api/v1/posts", postRouter)
